@@ -1,0 +1,935 @@
+/* ========================================================
+   EDULENTRA FACULTY PORTAL STYLES
+   Modern, Clean, Responsive Design System (Theme Matched)
+   ======================================================== */
+
+:root {
+  --fac-primary: var(--role-primary);
+  --fac-primary-hover: var(--role-accent);
+  --fac-accent: var(--role-accent);
+  --fac-accent-light: var(--role-accent-soft);
+  --fac-green: #10b981;
+  --fac-green-light: #d1fae5;
+  --fac-amber: #f59e0b;
+  --fac-amber-light: #fef3c7;
+  --fac-red: #ef4444;
+  --fac-red-light: #fee2e2;
+  --fac-purple: var(--role-accent);
+  --fac-purple-light: var(--role-accent-soft);
+  --fac-bg: var(--role-background);
+  --fac-card-bg: var(--role-surface);
+  --fac-text-dark: var(--role-text);
+  --fac-text-muted: var(--role-muted);
+  --fac-border: var(--role-border);
+  --fac-radius: var(--role-radius-card);
+  --fac-radius-lg: var(--role-radius-card);
+  --fac-shadow-sm: var(--role-shadow-card);
+  --fac-shadow: var(--role-shadow-card);
+  --fac-shadow-lg: var(--role-shadow-card);
+}
+
+/* Master Layout */
+.faculty-dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--fac-bg);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--fac-text-dark);
+}
+
+/* Sidebar */
+.fac-sidebar {
+  width: 250px;
+  min-width: 250px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-right: 1px solid var(--fac-border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 50;
+  padding: 25px 18px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fac-sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 1px 20px;
+  padding: 12px 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.fac-sidebar-nav {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.fac-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border-radius: 11px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.fac-nav-item:hover {
+  background: var(--fac-accent-light);
+  color: var(--fac-accent);
+  transform: translateX(3px);
+}
+
+.fac-nav-item.active {
+  background: linear-gradient(135deg, var(--fac-primary), var(--fac-accent));
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+}
+
+.college-app .faculty-dashboard-layout .fac-nav-item.active {
+  background: linear-gradient(135deg, var(--fac-primary), var(--fac-accent));
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+}
+
+.fac-nav-icon {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  color: var(--fac-accent);
+}
+
+.fac-nav-count {
+  margin-left: auto;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 9999px;
+  background: #ef4444;
+  color: white;
+}
+
+.fac-sidebar-footer {
+  margin-top: auto;
+  padding: 20px 10px;
+}
+
+.fac-user-avatar {
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #dbeafe;
+}
+
+.fac-profile-info {
+  min-width: 0;
+}
+
+.fac-profile-info h3 {
+  margin: 0 0 4px;
+  color: var(--fac-primary);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fac-profile-info p {
+  margin: 0;
+  color: #64748b;
+  font-size: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fac-logout-btn {
+  margin-top: auto;
+}
+
+/* Main Content Area */
+.fac-main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+/* Top Navigation Bar */
+.fac-topbar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--fac-border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.fac-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.fac-menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.fac-page-heading {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--fac-text-dark);
+  margin: 0;
+}
+
+.fac-page-subheading {
+  font-size: 12.5px;
+  color: var(--fac-text-muted);
+  margin: 0;
+}
+
+.fac-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.fac-top-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--fac-border);
+  background: #ffffff;
+  color: var(--fac-text-dark);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fac-top-action-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.fac-top-action-btn.primary {
+  background: var(--fac-primary);
+  border-color: var(--fac-primary);
+  color: white;
+}
+
+.fac-top-action-btn.primary:hover {
+  background: var(--fac-accent);
+}
+
+/* Content Container */
+.fac-content {
+  padding: 28px;
+  flex: 1;
+}
+
+/* Alert Notification Banner */
+.fac-alert-banner {
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
+}
+
+.fac-alert-banner.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.fac-alert-banner.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.fac-alert-banner.info {
+  background: var(--fac-accent-light);
+  border: 1px solid #dbeafe;
+  color: var(--fac-primary);
+}
+
+/* Common Card */
+.fac-card {
+  background: var(--fac-card-bg);
+  border: 1px solid var(--fac-border);
+  border-radius: var(--fac-radius-lg);
+  padding: 22px;
+  box-shadow: var(--fac-shadow-sm);
+  transition: box-shadow 0.2s ease;
+}
+
+.fac-card:hover {
+  box-shadow: var(--fac-shadow);
+}
+
+.fac-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.fac-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fac-text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Overview Stat Cards Grid */
+.fac-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.fac-stat-card {
+  background: #ffffff;
+  border: 1px solid var(--fac-border);
+  border-radius: var(--fac-radius);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.2s ease;
+}
+
+.fac-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fac-shadow);
+}
+
+.fac-stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.fac-stat-icon-blue,
+.fac-stat-icon-green,
+.fac-stat-icon-amber,
+.fac-stat-icon-purple,
+.fac-stat-icon-red {
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.fac-stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--fac-text-dark);
+  line-height: 1.1;
+}
+
+.fac-stat-label {
+  font-size: 12.5px;
+  color: var(--fac-text-muted);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Quick Actions Section */
+.fac-quick-actions-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.fac-action-pill {
+  background: #ffffff;
+  border: 1px solid var(--fac-border);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--fac-text-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fac-action-pill:hover {
+  background: var(--fac-accent-light);
+  border-color: var(--fac-accent);
+  color: var(--fac-accent);
+  transform: translateY(-1px);
+}
+
+/* Two Column Grid for Overview */
+.fac-overview-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 24px;
+}
+
+/* Table Styles */
+.fac-table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--fac-border);
+}
+
+.fac-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.fac-table th {
+  background: #f8fafc;
+  padding: 12px 16px;
+  font-weight: 700;
+  color: #475569;
+  border-bottom: 1px solid var(--fac-border);
+  white-space: nowrap;
+}
+
+.fac-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--fac-border);
+  color: var(--fac-text-dark);
+}
+
+.fac-table tr:last-child td {
+  border-bottom: none;
+}
+
+.fac-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* Badges */
+.fac-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.fac-badge-green { background: #dcfce7; color: #15803d; }
+.fac-badge-amber { background: #fef3c7; color: #b45309; }
+.fac-badge-red { background: #fee2e2; color: #b91c1c; }
+.fac-badge-blue { background: var(--fac-accent-light); color: var(--fac-primary); }
+.fac-badge-purple { background: #f3e8ff; color: #7e22ce; }
+
+/* Filter & Search Bar */
+.fac-filter-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fac-search-input {
+  flex: 1;
+  min-width: 240px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--fac-border);
+  font-size: 14px;
+  outline: none;
+}
+
+.fac-search-input:focus {
+  border-color: var(--fac-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.fac-select-input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--fac-border);
+  font-size: 14px;
+  background: white;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Modals & Dialogs */
+.fac-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.fac-modal {
+  background: #ffffff;
+  border-radius: var(--fac-radius-lg);
+  max-width: 580px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--fac-shadow-lg);
+  padding: 24px;
+  position: relative;
+  animation: scaleUp 0.25s ease;
+}
+
+.fac-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--fac-border);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.fac-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.fac-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #94a3b8;
+  padding: 4px;
+  line-height: 1;
+}
+
+.fac-modal-close:hover {
+  color: #0f172a;
+}
+
+/* Form Styles */
+.fac-form-group {
+  margin-bottom: 16px;
+}
+
+.fac-form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.fac-form-input,
+.fac-form-textarea,
+.fac-form-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--fac-border);
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.fac-form-input:focus,
+.fac-form-textarea:focus,
+.fac-form-select:focus {
+  border-color: var(--fac-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.fac-form-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.fac-btn-group {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.fac-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fac-btn.primary {
+  background: var(--fac-accent);
+  color: white;
+}
+.fac-btn.primary:hover {
+  background: var(--fac-accent);
+}
+
+.fac-btn.secondary {
+  background: #f1f5f9;
+  color: #334155;
+}
+.fac-btn.secondary:hover {
+  background: #e2e8f0;
+}
+
+.fac-btn.success {
+  background: #10b981;
+  color: white;
+}
+.fac-btn.success:hover {
+  background: #059669;
+}
+
+.fac-btn.danger {
+  background: #ef4444;
+  color: white;
+}
+.fac-btn.danger:hover {
+  background: #dc2626;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .fac-overview-grid {
+    grid-template-columns: 1fr;
+  }
+  .fac-sidebar {
+    position: fixed;
+      left: -250px;
+  }
+  .fac-sidebar.open {
+    left: 0;
+  }
+  .fac-menu-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .fac-content {
+    padding: 16px;
+  }
+  .fac-topbar {
+    padding: 12px 16px;
+  }
+  .fac-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .fac-btn-group {
+    flex-direction: column-reverse;
+  }
+  .fac-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Match the student dashboard's shared visual treatment. */
+.college-app .faculty-dashboard-layout {
+  background:
+    radial-gradient(circle at 85% 10%, rgba(37, 99, 235, 0.08), transparent 28%),
+    radial-gradient(circle at 15% 90%, rgba(6, 182, 212, 0.07), transparent 25%),
+    linear-gradient(135deg, #f8fbff 0%, #f4f7fc 50%, #eef4ff 100%);
+  color: #172033;
+  font: 14px Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+.faculty-dashboard-layout .fac-sidebar {
+  box-shadow: 6px 0 25px rgba(23, 59, 114, 0.06);
+}
+
+.faculty-dashboard-layout .fac-nav-item:hover {
+  background: #eff6ff;
+  color: #2563eb;
+  transform: translateX(2px);
+}
+
+.faculty-dashboard-layout .fac-sidebar .fac-nav-item.active {
+  border-color: #e2e8f0;
+  background: #eff6ff;
+  color: #173b72;
+  box-shadow: none;
+}
+
+.faculty-dashboard-layout .fac-profile-info h3 {
+  color: #173b72;
+}
+
+.faculty-dashboard-layout .fac-profile-info p {
+  color: #64748b;
+  font-size: 9px;
+}
+
+.faculty-dashboard-layout .fac-user-avatar {
+  background: #eff6ff;
+}
+
+.faculty-dashboard-layout .fac-topbar {
+  min-height: 125px;
+  margin: 28px 28px 0;
+  padding: 25px 30px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(23, 59, 114, 0.07);
+  position: static;
+}
+
+.faculty-dashboard-layout .fac-page-heading {
+  margin: 0 0 8px;
+  color: #173b72;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.faculty-dashboard-layout .fac-page-subheading {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.faculty-dashboard-layout .fac-top-action-btn {
+  border-radius: 11px;
+  font-size: 14px;
+  padding: 10px 14px;
+}
+
+.faculty-dashboard-layout .fac-top-action-btn:hover {
+  background: #eff6ff;
+  border-color: #e2e8f0;
+  color: #173b72;
+}
+
+.faculty-dashboard-layout .fac-content {
+  padding: 25px 28px 28px;
+}
+
+.faculty-dashboard-layout .fac-overview-banner {
+  min-height: 125px;
+  margin-bottom: 25px;
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #172033;
+  box-shadow: 0 10px 30px rgba(23, 59, 114, 0.07);
+}
+
+.faculty-dashboard-layout .fac-session-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #eff6ff;
+  color: #173b72;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.faculty-dashboard-layout .fac-overview-title {
+  margin: 10px 0 4px;
+  color: #173b72;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.faculty-dashboard-layout .fac-overview-subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.faculty-dashboard-layout .fac-overview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.faculty-dashboard-layout .fac-overview-button {
+  padding: 10px 18px;
+  border: 1px solid #e0ecfa;
+  border-radius: 11px;
+  background: #f8fbff;
+  color: #173b72;
+  font: 700 14px Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+
+.faculty-dashboard-layout .fac-overview-button:hover {
+  background: #eff6ff;
+}
+
+.faculty-dashboard-layout .fac-overview-button.has-pending {
+  border-color: #ef4444;
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.faculty-dashboard-layout .fac-stats-grid {
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.faculty-dashboard-layout .fac-stat-card {
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(23, 59, 114, 0.07);
+}
+
+.faculty-dashboard-layout .fac-stat-card:hover {
+  box-shadow: 0 16px 35px rgba(23, 59, 114, 0.1);
+}
+
+.faculty-dashboard-layout .fac-stat-value {
+  font-size: 24px;
+}
+
+.faculty-dashboard-layout .fac-stat-label {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.faculty-dashboard-layout .fac-overview-grid {
+  gap: 25px;
+}
+
+.faculty-dashboard-layout .fac-card {
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(23, 59, 114, 0.07);
+}
+
+.faculty-dashboard-layout .fac-card:hover {
+  box-shadow: 0 16px 35px rgba(23, 59, 114, 0.1);
+}
+
+.faculty-dashboard-layout .fac-card-header {
+  margin-bottom: 20px;
+}
+
+.faculty-dashboard-layout .fac-card-title {
+  color: #173b72;
+  font-size: 18px;
+}
+
+.faculty-dashboard-layout .fac-table {
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .faculty-dashboard-layout .fac-topbar {
+    min-height: 0;
+    margin: 15px 15px 0;
+    padding: 20px;
+    gap: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .faculty-dashboard-layout .fac-topbar-right {
+    flex-wrap: wrap;
+  }
+
+  .faculty-dashboard-layout .fac-content {
+    padding: 20px 15px;
+  }
+
+  .faculty-dashboard-layout .fac-overview-banner {
+    padding: 20px;
+  }
+
+  .faculty-dashboard-layout .fac-overview-title {
+    font-size: 22px;
+  }
+
+  .faculty-dashboard-layout .fac-overview-actions {
+    width: 100%;
+  }
+
+  .faculty-dashboard-layout .fac-overview-button {
+    flex: 1;
+  }
+}

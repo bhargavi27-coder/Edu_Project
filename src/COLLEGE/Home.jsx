@@ -1,6 +1,6 @@
 import React from "react";
 import "./Home.css";
-import homeimg from "../assets/home_back.png";
+import homeimg from "../assests/home_back-CrvVn45t.png";
 import { Link } from "react-router-dom";
 
 function Home() {
@@ -99,53 +99,63 @@ function Home() {
                     </a>
 
 
-                    <a
-                        href="#about"
-                        style={linkStyle}
-                    >
-                        About
-                    </a>
+                      <Link to="/about" style={linkStyle}>
+    About
+</Link>
 
 
-                    <a
-                        href="#highlights"
-                        style={linkStyle}
-                    >
-                        Highlights
-                    </a>
+                   <Link to="/highlights" style={linkStyle}>
+    Highlights
+</Link>
+
+                 <Link to="/gallery" style={linkStyle}>
+    Gallery
+</Link>
 
 
-                    <a
-                        href="#gallery"
-                        style={linkStyle}
-                    >
-                        Gallery
-                    </a>
+                  <div className="login-dropdown">
 
+    <a 
+        href="#login" 
+        style={linkStyle}
+        className="login-link"
+    >
+        Login ▾
+    </a>
 
-                    <a
-                        href="#login"
-                        style={linkStyle}
-                    >
-                        Login
-                    </a>
+    <div className="login-menu">
 
+        <Link to="/student" className="login-role">
+            🎓 <span>Student</span>
+        </Link>
 
-                    <a
-                        href="#contact"
-                        style={linkStyle}
-                    >
-                        Contact
-                    </a>
+        <Link to="/faculty" className="login-role">
+            👨‍🏫 <span>Faculty</span>
+        </Link>
 
+        <Link to="/hod" className="login-role">
+            🏫 <span>HOD</span>
+        </Link>
 
-                    <Link
+        <Link to="/admin" className="login-role">
+            💻 <span>Admin</span>
+        </Link>
+
+    </div>
+
+</div>
+
+<Link to="/contact" style={linkStyle}>
+    Contact
+</Link>
+
+                    {/* <Link
                         to="/role"
                         className="hero-btn"
                         style={linkStyle}
                     >
                         Get Started
-                    </Link>
+                       </Link> */}
 
                 </nav>
 

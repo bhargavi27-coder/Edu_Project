@@ -73,22 +73,65 @@
 /* =========================================================
    LOGO
 ========================================================= */
+/* =====================================================
+   EDULENTRA LOGO
+===================================================== */
 
 .student-logo {
-
     display: flex;
-
+    flex-direction: column;
     align-items: center;
 
-    gap: 10px;
+    text-align: center;
 
-    margin-bottom: 35px;
+    margin-bottom: 12px;
 }
 
 
-.logo-icon {
+/* CIRCLE AROUND LOGO */
 
-    font-size: 30px;
+.logo-icon {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border: 3px solid #dbeafe;
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+
+/* EDULENTRA TEXT */
+
+.logo-text h2 {
+    margin: 0;
+
+    color: #173b72;
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.2px;
+}
+
+.logo-text p {
+    margin: 4px 0 0;
+
+    color: #64748b;
+
+    font-size: 8px;
+
+    white-space: nowrap;
 }
 
 
@@ -220,6 +263,7 @@
 
     transform:
         rotate(-3deg);
+        margin-bottom: 100px;
 }
 
 
@@ -287,6 +331,45 @@
     color: #64748b;
 
     font-size: 13px;
+}
+
+.student-header-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.student-home-button {
+
+    min-height: 42px;
+
+    padding: 10px 14px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    color: #173b72;
+
+    font: 600 14px Arial, Helvetica, sans-serif;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.student-home-button:hover {
+
+    background: #eff6ff;
+
+    border-color: #dbeafe;
 }
 
 
@@ -473,6 +556,10 @@
     justify-content: center;
 
     background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+    color: #173b72;
 
     border-radius: 12px;
 
@@ -1916,7 +2003,9 @@
 }
 
 
-.announcement-list div {
+.announcement-list > div,
+.announcement-list > article,
+.announcement-list > p {
 
     padding: 20px;
 
@@ -1938,6 +2027,15 @@
 .announcement-list p {
 
     margin-top: 8px;
+
+    color: #64748b;
+}
+
+.announcement-list small {
+
+    display: block;
+
+    margin-top: 10px;
 
     color: #64748b;
 }
@@ -2435,6 +2533,14 @@
         gap: 20px;
     }
 
+    .student-header-actions {
+
+        width: 100%;
+
+        flex-wrap: wrap;
+
+    }
+
 
     .attendance-card {
 
@@ -2546,4 +2652,516 @@
         width: 100%;
     }
 
+}
+/* =====================================================
+   MULTIPLE TASKS DISPLAY
+===================================================== */
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-height: none;
+    height: auto;
+    overflow-y: visible;
+    overflow-x: hidden;
+}
+
+.task-item {
+    width: 100%;
+    flex-shrink: 0;
+}
+/* =====================================================
+   CALENDAR MONTH / YEAR SELECTORS
+===================================================== */
+
+.calendar-month-select,
+.calendar-year-select {
+    border: none;
+    background: transparent;
+    color: #315b91;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+}
+
+.calendar-month-select {
+    min-width: 105px;
+}
+
+.calendar-year-select {
+    min-width: 70px;
+}
+
+.calendar-month-select:focus,
+.calendar-year-select:focus {
+    outline: none;
+}
+/* =====================================================
+   STUDENT PROFILE
+===================================================== */
+
+.student-profile-section {
+    min-height: 500px;
+}
+
+
+/* PROFILE HEADER */
+
+.profile-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.profile-page-header h2 {
+    margin-bottom: 8px;
+}
+
+.profile-page-header p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+
+/* PROFILE MAIN CARD */
+
+.student-profile-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 25px;
+
+    box-shadow:
+        0 12px 30px
+        rgba(23, 59, 114, 0.07);
+}
+
+
+/* PROFILE TOP */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding-bottom: 25px;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border:
+        3px solid #dbeafe;
+
+    font-size: 38px;
+
+    flex-shrink: 0;
+}
+
+
+.profile-header-info h2 {
+    margin: 0 0 6px;
+
+    font-size: 22px;
+
+    color: #173b72;
+}
+
+
+.profile-header-info p {
+    margin: 0 0 8px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+.profile-status {
+    color: #16a34a;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* PROFILE SECTIONS */
+
+.profile-block {
+    padding: 25px 0;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+
+.profile-block:last-child {
+    border-bottom: none;
+}
+
+
+.profile-block h3 {
+    margin-bottom: 18px;
+
+    font-size: 17px;
+
+    color: #173b72;
+}
+
+
+/* DETAILS GRID */
+
+.profile-details-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px 20px;
+}
+
+
+.profile-detail {
+    background: #f8fbff;
+
+    border:
+        1px solid #e0eaf5;
+
+    border-radius: 11px;
+
+    padding: 14px 16px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.profile-detail:hover {
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 5px 15px
+        rgba(37, 99, 235, 0.06);
+}
+
+
+.profile-detail span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+.profile-detail strong {
+    display: block;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+}
+
+
+/* ADDRESS */
+
+.profile-address {
+    background: #f8fbff;
+
+    border:
+        1px solid #e0eaf5;
+
+    border-radius: 11px;
+
+    padding: 15px 16px;
+}
+
+
+.profile-address span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+.profile-address strong {
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .profile-header {
+        align-items: flex-start;
+    }
+
+    .profile-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-avatar {
+        width: 65px;
+        height: 65px;
+
+        font-size: 30px;
+    }
+
+}
+/* =====================================================
+   SIDEBAR STUDENT PROFILE
+===================================================== */
+
+.student-sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0px 1px 20px;
+    padding: 12px 8px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* PROFILE IMAGE / AVATAR */
+
+.sidebar-profile-avatar {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    border: 3px solid #dbeafe;
+    font-size: 28px;
+}
+
+/* PROFILE TEXT */
+
+.sidebar-profile-info {
+    min-width: 0;
+}
+
+.sidebar-profile-info h3 {
+    margin: 0 0 4px;
+    color: #173b72;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.sidebar-profile-info p {
+    margin: 0 0 5px;
+    color: #64748b;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.sidebar-profile-info span {
+    color: #16a34a;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+/* ATTENDANCE PAGE */
+
+.attendance-section {
+    min-width: 0;
+    padding: 32px;
+}
+
+.attendance-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 26px;
+}
+
+.attendance-page-header h2 {
+    margin: 0 0 7px;
+    color: #173b72;
+    font-size: 26px;
+}
+
+.attendance-page-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.attendance-back-btn {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.attendance-back-btn:hover {
+    background: #dbeafe;
+    transform: translateY(-1px);
+}
+
+.attendance-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.attendance-summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding: 19px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fbff;
+}
+
+.attendance-summary-card span {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.attendance-summary-card strong {
+    color: #173b72;
+    font-size: 26px;
+    line-height: 1.2;
+}
+
+.attendance-block {
+    margin-top: 30px;
+}
+
+.attendance-block h3 {
+    margin: 0 0 14px;
+    color: #173b72;
+    font-size: 18px;
+}
+
+.attendance-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+}
+
+.attendance-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    background: #ffffff;
+    text-align: left;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 13px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+.attendance-table th {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.attendance-table td {
+    color: #334155;
+    font-size: 13px;
+}
+
+.attendance-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.attendance-table tbody tr:hover {
+    background: #f8fbff;
+}
+
+.attendance-table .attendance-good,
+.attendance-table .status-present {
+    color: #15803d;
+    font-weight: 700;
+}
+
+.attendance-table .status-absent {
+    color: #b91c1c;
+    font-weight: 700;
+}
+
+@media (max-width: 700px) {
+    .attendance-section {
+        padding: 20px 16px;
+    }
+
+    .attendance-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .attendance-page-header h2 {
+        font-size: 22px;
+    }
+
+    .attendance-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+    }
+
+    .attendance-summary-card {
+        padding: 15px;
+    }
+
+    .attendance-summary-card strong {
+        font-size: 23px;
+    }
+
+    .attendance-block {
+        margin-top: 24px;
+    }
 }

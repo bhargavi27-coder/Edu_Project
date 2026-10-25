@@ -1,5 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { clearAuthSession } from "../api/authSession";
+import { announcementsApi } from "../api/announcementsApi";
 import "./StudentDashboard.css";
+import PortalBackButton from "./PortalBackButton";
 
 
 /* =========================================================
@@ -283,6 +287,12 @@ const formatDisplayDate = (dateKey) => {
 
 
 function StudentDashboard() {
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        clearAuthSession();
+        navigate("/student", { replace: true });
+    };
+    const sectionHistory = useRef([]);
 
     /* =====================================================
        GENERAL DASHBOARD STATE
@@ -290,6 +300,9 @@ function StudentDashboard() {
 
     const [activeSection, setActiveSection] =
         useState("dashboard");
+    const [announcements, setAnnouncements] = useState([]);
+    const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(true);
+    const [announcementError, setAnnouncementError] = useState("");
 
     const [complaint, setComplaint] =
         useState("");
@@ -299,6 +312,32 @@ function StudentDashboard() {
 
     const [outpass, setOutpass] =
         useState("");
+    const [outpassRequests, setOutpassRequests] =
+    useState(() => {
+
+        try {
+
+            const savedRequests =
+                localStorage.getItem(
+                    "edulentra_outpass_requests"
+                );
+
+            return savedRequests
+                ? JSON.parse(savedRequests)
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "Unable to load outpass requests:",
+                error
+            );
+
+            return [];
+
+        }
+
+    });
 
 
     /* =====================================================
@@ -414,15 +453,69 @@ function StudentDashboard() {
 
     }, [tasks]);
 
+    useEffect(() => {
+        let cancelled = false;
+        let requestId = 0;
+        let hasLoaded = false;
+
+        const refreshAnnouncements = async () => {
+            const currentRequestId = ++requestId;
+            if (!hasLoaded) setIsLoadingAnnouncements(true);
+            try {
+                const items = await announcementsApi.getAll();
+                if (!cancelled && currentRequestId === requestId) {
+                    setAnnouncements(items);
+                    setAnnouncementError("");
+                }
+            } catch (error) {
+                if (!cancelled && currentRequestId === requestId) {
+                    setAnnouncementError(error.message || "Unable to load announcements.");
+                }
+            } finally {
+                if (!cancelled && currentRequestId === requestId) {
+                    hasLoaded = true;
+                    setIsLoadingAnnouncements(false);
+                }
+            }
+        };
+
+        const unsubscribe = announcementsApi.subscribeToAnnouncementUpdates(
+            () => refreshAnnouncements(),
+            () => {
+                if (!cancelled) {
+                    setAnnouncementError("Live updates are unavailable. Refresh to check for new announcements.");
+                }
+            }
+        );
+        void refreshAnnouncements();
+
+        return () => {
+            cancelled = true;
+            unsubscribe();
+        };
+    }, []);
+
 
     /* =====================================================
        MENU
     ===================================================== */
 
     const handleMenuClick = (section) => {
-
+        if (section === activeSection) {
+            return;
+        }
+        sectionHistory.current.push(activeSection);
         setActiveSection(section);
+    };
 
+    const handleSectionBack = () => {
+        if (activeSection !== "dashboard" || sectionHistory.current.length > 0) {
+            const previousSection = sectionHistory.current.pop() || "dashboard";
+            setActiveSection(previousSection);
+            return true;
+        }
+
+        return false;
     };
 
 
@@ -662,29 +755,50 @@ function StudentDashboard() {
     };
 
 
-    const handleAddTask = (e) => {
+const handleAddTask = (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        if (!taskTitle.trim()) {
+    if (!taskTitle.trim()) {
 
-            alert(
-                "Please enter a task title."
-            );
+        alert(
+            "Please enter a task title."
+        );
 
-            return;
+        return;
 
-        }
+    }
 
-        if (!taskDate) {
+    if (!taskDate) {
 
-            alert(
-                "Please select a date."
-            );
+        alert(
+            "Please select a date."
+        );
 
-            return;
+        return;
 
-        }
+    }
+
+    /* =====================================================
+       PREVENT PAST DATES
+    ===================================================== */
+
+    const currentDate = new Date();
+
+    const todayKey = formatDateKey(currentDate);
+
+    if (taskDate < todayKey) {
+
+        alert(
+            "Past dates cannot be selected. Please choose today or a future date."
+        );
+
+        return;
+
+    }
+
+
+    
 
 
         const newTask = {
@@ -842,29 +956,49 @@ function StudentDashboard() {
             ================================================= */}
 
             <aside className="student-sidebar">
-
-                <div className="student-logo">
-
-                    <div className="logo-icon">
-                        🎓
-                    </div>
-
-                    <div>
-
-                        <h2>
-                            EduLentra
-                        </h2>
-
-                        <p>
-                            Learn • Grow • Build Your Future
-                        </p>
-
-                    </div>
-
-                </div>
+            
 
 
-                <nav className="student-nav">
+
+{/* STUDENT PROFILE SUMMARY */}
+
+<div className="student-sidebar-profile">
+
+    <div className="sidebar-profile-avatar">
+        👨‍🎓
+    </div>
+
+    <div className="sidebar-profile-info">
+
+        <h3>
+            Sai Student
+        </h3>
+
+        <p>
+            Student ID: EDU2026CSE001
+        </p>
+
+   
+
+    </div>
+
+</div>
+
+
+<nav className="student-nav">
+
+
+
+
+                    <button
+                        className="nav-item"
+                        onClick={handleLogout}
+                    >
+                        ↪
+                        <span>
+                            Log Out
+                        </span>
+                    </button>
 
 
                     {/* DASHBOARD */}
@@ -913,6 +1047,18 @@ function StudentDashboard() {
                         </span>
 
                     </button>
+                    {/*Attendence*/}
+                    <button
+    className={
+        activeSection === "attendance"
+            ? "nav-item active"
+            : "nav-item"
+    }
+    onClick={() => handleMenuClick("attendance")}
+>
+    📊
+    <span>View Attendance</span>
+</button>
 
 
                     {/* COMPLAINTS */}
@@ -1033,6 +1179,28 @@ function StudentDashboard() {
                         </span>
 
                     </button>
+                    {/* STUDENT PROFILE */}
+
+<button
+    className={
+        activeSection === "profile"
+            ? "nav-item active"
+            : "nav-item"
+    }
+    onClick={() =>
+        handleMenuClick("profile")
+    }
+>
+
+    👤
+
+    <span>
+        My Profile
+    </span>
+
+</button>
+
+                    
 
                 </nav>
 
@@ -1064,6 +1232,11 @@ function StudentDashboard() {
             ================================================= */}
 
             <main className="student-main">
+                <PortalBackButton
+                    role="student"
+                    fallbackTo="/student"
+                    onBack={handleSectionBack}
+                />
 
 
                 {/* =================================================
@@ -1086,6 +1259,8 @@ function StudentDashboard() {
 
                     </div>
 
+
+                    <div className="student-header-actions">
 
                     <div className="attendance-card">
 
@@ -1144,7 +1319,19 @@ function StudentDashboard() {
 
                     </div>
 
+                    <button
+                        type="button"
+                        className="student-home-button"
+                        onClick={() => navigate("/")}
+                        aria-label="College Home"
+                    >
+                        🏠 <span>College Home</span>
+                    </button>
+
+                    </div>
+
                 </header>
+                
 
 
                 {/* =================================================
@@ -1177,7 +1364,6 @@ function StudentDashboard() {
                                         </p>
 
                                     </div>
-
                                     <span className="schedule-icon">
                                         📚
                                     </span>
@@ -1317,7 +1503,7 @@ function StudentDashboard() {
                                                         </span>
 
                                                         <span>
-                                                            📍 Classroom
+                                                            📍 {item.type==="Lab"?"Lab":"Classroom"}
                                                         </span>
 
                                                     </div>
@@ -1366,48 +1552,91 @@ function StudentDashboard() {
                                 </div>
 
 
-                                {/* MONTH NAVIGATION */}
+                               
 
-                                <div className="calendar-navigation">
+                                {/* MONTH / YEAR NAVIGATION */}
 
-                                    <button
-                                        onClick={() =>
-                                            changeMonth(-1)
-                                        }
-                                        aria-label="Previous month"
-                                    >
-                                        ‹
-                                    </button>
+<div className="calendar-navigation">
 
-                                    <strong>
-                                        {monthName}
-                                    </strong>
+    <button
+        onClick={() => changeMonth(-1)}
+        aria-label="Previous month"
+    >
+        ‹
+    </button>
 
-                                    <button
-                                        onClick={() =>
-                                            changeMonth(1)
-                                        }
-                                        aria-label="Next month"
-                                    >
-                                        ›
-                                    </button>
+    <select
+        value={calendarMonth.getMonth()}
+        onChange={(e) => {
+            setCalendarMonth(
+                new Date(
+                    calendarMonth.getFullYear(),
+                    Number(e.target.value),
+                    1
+                )
+            );
+        }}
+        className="calendar-month-select"
+        aria-label="Select month"
+    >
+        {[
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ].map((month, index) => (
+            <option
+                key={month}
+                value={index}
+            >
+                {month}
+            </option>
+        ))}
+    </select>
 
-                                </div>
+    <select
+        value={calendarMonth.getFullYear()}
+        onChange={(e) => {
+            setCalendarMonth(
+                new Date(
+                    Number(e.target.value),
+                    calendarMonth.getMonth(),
+                    1
+                )
+            );
+        }}
+        className="calendar-year-select"
+        aria-label="Select year"
+    >
+        {Array.from(
+            { length: 201 },
+            (_, index) => 1900 + index
+        ).map((year) => (
+            <option
+                key={year}
+                value={year}
+            >
+                {year}
+            </option>
+        ))}
+    </select>
 
+    <button
+        onClick={() => changeMonth(1)}
+        aria-label="Next month"
+    >
+        ›
+    </button>
 
-                                {/* DAYS */}
-
-                                <div className="calendar-days">
-
-                                    <span>Sun</span>
-                                    <span>Mon</span>
-                                    <span>Tue</span>
-                                    <span>Wed</span>
-                                    <span>Thu</span>
-                                    <span>Fri</span>
-                                    <span>Sat</span>
-
-                                </div>
+</div>
 
 
                                 {/* DATES */}
@@ -1726,7 +1955,7 @@ function StudentDashboard() {
                             <div>
                                 📢
                                 <span>
-                                    3 New Announcements
+                                    {announcements.length} Announcements
                                 </span>
                             </div>
 
@@ -2195,49 +2424,29 @@ function StudentDashboard() {
                             📢 Announcements
                         </h2>
 
+                        {announcementError && (
+                            <p role="alert">{announcementError}</p>
+                        )}
+
                         <div className="announcement-list">
-
-                            <div>
-
-                                <b>
-                                    📌 Internal Exams
-                                </b>
-
-                                <p>
-                                    Internal examinations
-                                    will begin next week.
-                                </p>
-
-                            </div>
-
-
-                            <div>
-
-                                <b>
-                                    📌 Hackathon
-                                </b>
-
-                                <p>
-                                    Registration for the
-                                    upcoming hackathon is open.
-                                </p>
-
-                            </div>
-
-
-                            <div>
-
-                                <b>
-                                    📌 Placement Drive
-                                </b>
-
-                                <p>
-                                    New placement opportunities
-                                    are available.
-                                </p>
-
-                            </div>
-
+                            {isLoadingAnnouncements ? (
+                                <p>Loading announcements...</p>
+                            ) : announcements.length ? (
+                                announcements.map((announcement) => (
+                                    <article key={announcement.id}>
+                                        <b>📌 {announcement.title}</b>
+                                        <p>{announcement.message}</p>
+                                        <small>
+                                            {announcement.category} · {announcement.priority} priority · {announcement.date}
+                                            {announcement.createdByName
+                                                ? ` · By ${announcement.createdByName}`
+                                                : ""}
+                                        </small>
+                                    </article>
+                                ))
+                            ) : (
+                                <p>No announcements have been published for you yet.</p>
+                            )}
                         </div>
 
                     </section>
@@ -2371,6 +2580,349 @@ function StudentDashboard() {
                     </section>
 
                 )}
+                {/* =================================================
+   STUDENT PROFILE
+================================================= */}
+
+{activeSection === "profile" && (
+
+    <section className="module-section student-profile-section">
+
+        {/* PROFILE PAGE HEADER */}
+
+        <div className="profile-page-header">
+
+            <div>
+
+                <h2>
+                    👤 My Profile
+                </h2>
+
+                <p>
+                    View your personal and academic information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        {/* PROFILE CARD */}
+
+        <div className="student-profile-card">
+
+
+            {/* PROFILE HEADER */}
+
+            <div className="profile-header">
+
+                <div className="profile-avatar">
+                    👨‍🎓
+                </div>
+
+                <div className="profile-header-info">
+
+                    <h2>
+                        Sai Student
+                    </h2>
+
+                    <p>
+                        Student ID: EDU2026CSE001
+                    </p>
+
+                    <span className="profile-status">
+                        ● Active Student
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            {/* PERSONAL INFORMATION */}
+
+            <div className="profile-block">
+
+                <h3>
+                    Personal Information
+                </h3>
+
+                <div className="profile-details-grid">
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Full Name
+                        </span>
+
+                        <strong>
+                            Sai Student
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Student ID
+                        </span>
+
+                        <strong>
+                            EDU2026CSE001
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong>
+                            student@edulentra.com
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Phone Number
+                        </span>
+
+                        <strong>
+                            +91 98765 43210
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Date of Birth
+                        </span>
+
+                        <strong>
+                            15 June 2005
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Gender
+                        </span>
+
+                        <strong>
+                            Female
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {/* ACADEMIC INFORMATION */}
+
+            <div className="profile-block">
+
+                <h3>
+                    Academic Information
+                </h3>
+
+                <div className="profile-details-grid">
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Department
+                        </span>
+
+                        <strong>
+                            Computer Science &amp; Engineering
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Course
+                        </span>
+
+                        <strong>
+                            B.Tech
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Year
+                        </span>
+
+                        <strong>
+                            3rd Year
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Section
+                        </span>
+
+                        <strong>
+                            CSE-A
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Admission Year
+                        </span>
+
+                        <strong>
+                            2024
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Semester
+                        </span>
+
+                        <strong>
+                            5th Semester
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {/* PARENT / GUARDIAN INFORMATION */}
+
+            <div className="profile-block">
+
+                <h3>
+                    Parent / Guardian Information
+                </h3>
+
+                <div className="profile-details-grid">
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Parent / Guardian Name
+                        </span>
+
+                        <strong>
+                            Raj Kumar
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Relationship
+                        </span>
+
+                        <strong>
+                            Father
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Contact Number
+                        </span>
+
+                        <strong>
+                            +91 91234 56789
+                        </strong>
+
+                    </div>
+
+
+                    <div className="profile-detail">
+
+                        <span>
+                            Emergency Contact
+                        </span>
+
+                        <strong>
+                            +91 91234 56789
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {/* ADDRESS */}
+
+            <div className="profile-block">
+
+                <h3>
+                    Address
+                </h3>
+
+                <div className="profile-address">
+
+                    <span>
+                        Permanent Address
+                    </span>
+
+                    <strong>
+                        Hyderabad, Telangana, India
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+)}
 
             </main>
 
